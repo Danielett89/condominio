@@ -1,6 +1,12 @@
 <?php 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../includes/functions.php';
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', '/daniele/condominio');
+}
+
+// Determina se mostrare il pulsante indietro (può essere impostato dalla pagina che include questo file)
+$showBackButton = $showBackButton ?? false;
+$backUrl = $backUrl ?? BASE_PATH . '/dashboard.php';
+$pageTitle = $pageTitle ?? 'Dashboard';
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -10,7 +16,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#007bff">
-    <title><?= APP_NAME ?></title>
+    <title><?= $pageTitle ?> - Condominio</title>
     <!-- Bootstrap CSS -->
     <link href="<?= BASE_PATH ?>/assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -26,31 +32,37 @@ require_once __DIR__ . '/../includes/functions.php';
     <?php if (isLoggedIn()): ?>
     <!-- Header Top Bar (solo per utenti loggati) -->
     <header class="app-header">
-        <div class="header-title"><?= APP_NAME ?></div>
+        <?php if ($showBackButton): ?>
+        <a href="<?= $backUrl ?>" class="header-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <?php endif; ?>
+        <div class="header-title"><?= $pageTitle ?></div>
         <div class="header-actions">
-            <button class="btn-notification">
+            <button class="btn-notification" id="btnNotification">
                 <i class="fas fa-bell"></i>
+            </button>
+            <button class="btn-menu" id="btnMenu">
+                <i class="fas fa-ellipsis-v"></i>
             </button>
         </div>
     </header>
+    
+    <!-- Includi il menu dropdown dell'header -->
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . BASE_PATH . '/includes/header-menu.php'; ?>
     <?php endif; ?>
     
     <!-- Main Container -->
     <main class="app-content">
         <!-- Flash Message -->
         <?php 
-        $flash = getFlashMessage();
-        if ($flash): 
+        if (isset($_SESSION['flash_message']) && isset($_SESSION['flash_type'])) {
+            $flashMessage = $_SESSION['flash_message'];
+            $flashType = $_SESSION['flash_type'];
+            unset($_SESSION['flash_message']);
+            unset($_SESSION['flash_type']);
         ?>
-        <div class="toast-container">
-            <div class="toast show">
-                <div class="toast-header bg-<?= $flash['type'] ?> text-white">
-                    <strong class="me-auto">Notifica</strong>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-                </div>
-                <div class="toast-body">
-                    <?= $flash['message'] ?>
-                </div>
-            </div>
+        <div class="alert alert-<?= $flashType ?>">
+            <?= $flashMessage ?>
         </div>
-        <?php endif; ?>
+        <?php } ?>
