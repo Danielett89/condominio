@@ -25,10 +25,6 @@ $currentPage = $_SERVER['PHP_SELF'];
         <i class="fas fa-file-invoice-dollar"></i>
         <span>Spese</span>
     </a>
-    <a href="<?= BASE_PATH ?>/views/documenti/index.php" class="nav-item <?= strpos($currentPage, '/documenti/') !== false ? 'active' : '' ?>">
-        <i class="fas fa-file-alt"></i>
-        <span>Documenti</span>
-    </a>
     <a href="<?= BASE_PATH ?>/views/calendario/index.php" class="nav-item <?= strpos($currentPage, '/calendario/') !== false ? 'active' : '' ?>">
         <i class="fas fa-calendar-alt"></i>
         <span>Calendario</span>
@@ -37,14 +33,4 @@ $currentPage = $_SERVER['PHP_SELF'];
         <i class="fas fa-comments"></i>
         <span>Chat</span>
     </a>
-    <a href="<?= BASE_PATH ?>/views/utenti/profilo.php" class="nav-item <?= strpos($currentPage, '/utenti/profilo') !== false ? 'active' : '' ?>">
-        <i class="fas fa-user"></i>
-        <span>Profilo</span>
-    </a>
-    <?php if (isAdmin()): ?>
-    <a href="<?= BASE_PATH ?>/views/admin/index.php" class="nav-item <?= strpos($currentPage, '/admin/') !== false ? 'active' : '' ?>">
-        <i class="fas fa-cog"></i>
-        <span>Admin</span>
-    </a>
-    <?php endif; ?>
 </nav>
