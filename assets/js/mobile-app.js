@@ -21,22 +21,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Gestione menu dell'header
-    const btnMenu = document.getElementById('btnMenu');
-    const headerMenu = document.getElementById('headerMenu');
+const btnMenu = document.getElementById('btnMenu');
+const headerMenu = document.getElementById('headerMenu');
+
+if (btnMenu && headerMenu) {
+    btnMenu.addEventListener('click', function(event) {
+        event.stopPropagation();
+        headerMenu.classList.toggle('show');
+    });
     
-    if (btnMenu && headerMenu) {
-        btnMenu.addEventListener('click', function(event) {
-            event.stopPropagation();
-            headerMenu.classList.toggle('show');
-        });
-        
-        // Chiudi il menu quando si tocca altrove
-        document.addEventListener('click', function(event) {
-            if (!btnMenu.contains(event.target) && !headerMenu.contains(event.target)) {
-                headerMenu.classList.remove('show');
-            }
-        });
-    }
+    // Chiudi il menu quando si tocca altrove
+    document.addEventListener('click', function(event) {
+        if (!btnMenu.contains(event.target) && !headerMenu.contains(event.target)) {
+            headerMenu.classList.remove('show');
+        }
+    });
+}
     
     // Gestione Toast
     const toasts = document.querySelectorAll('.toast');
